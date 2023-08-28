@@ -1,0 +1,21 @@
+.orientation-sideways button {
+    /* text-orientation: sideways; */
+    /* writing-mode: vertical-rl; */
+    transform: rotate(90deg);
+    width: 100px;
+    height: 150px;
+    position: relative;
+}
+
+.orientation-sideways button.active::after {
+    position: absolute;
+    margin: auto 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 90px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    background-color: white;
+    content: "";
+}
