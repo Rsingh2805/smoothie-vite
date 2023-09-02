@@ -1,11 +1,20 @@
 import React from 'react'
 import Card from './Card'
-import './index.css'
 import useMobile from '../../common/utils/useMobile'
 import clsx from 'clsx'
 import Footer from '../../common/components/ok-footer'
-import { abc , MenuItem } from './menu'
+import { abc , ItemData, MenuItem, Tag, TagDetails } from './menu'
+import { Reveal } from 'react-awesome-reveal'
+import { appear, slideDown } from '../../common/utils/animations'
+import { useImmer } from 'use-immer'
 
+const defaultSelection : {[key in Tag]: boolean} = {
+    [Tag.ALMOND_MILK]: false,
+    [Tag.COCONUT_WATER]: false,
+    [Tag.DAIRY_FREE]: false,
+    [Tag.LOW_FAT]: false,
+    [Tag.NUTS_FREE]: false,
+}
 
 
 const Menu = () => {
@@ -18,7 +27,16 @@ const Menu = () => {
     const [colStyle, setColStyle] = React.useState('')
     const [rowStyle, setRowStyle] = React.useState('')
 
+    const [tagSelection, updateTagSelection] = useImmer<{[key in Tag]: boolean}>(defaultSelection)
+
     const items = data[current]
+    const categories = [... new Set(items.reduce<Tag[]>((a, curr: ItemData) => {
+        return a.concat(curr.tags)
+    }, []))]
+
+    React.useEffect(() => {
+        updateTagSelection(defaultSelection)
+    }, [current])
 
     React.useEffect(() => {
         const cols = 3
@@ -51,31 +69,57 @@ const Menu = () => {
         }
     }, [idx, isMobile])
 
+    const sectionButtonClasses = (item: MenuItem) => clsx(
+        current === item ? 'bg-red-600 text-white' : 'hover:bg-gray-200',
+        'border border-red-600 border-r-0 last:border-r px-4 py-2 transition-all'
+    )
+
     return <>
-        <div className="mt-[80px] h-[calc(100vh-80px)] mx-auto container relative">
-            <div className="h-[calc(100vh-80px)] absolute top-0 bottom-0 right-0 w-[30px] py-12 px-8 text-white font-bold items-center flex flex-col justify-start bg-red-500 orientation-sideways">
-                <button onClick={() => setCurrent(MenuItem.ACAI)} className={clsx(
-                    current === MenuItem.ACAI && 'active'
-                )}>Acai Bowl</button>
-                <button onClick={() => setCurrent(MenuItem.SMOOTHIE)} className={clsx(
-                    current === MenuItem.SMOOTHIE && 'active'
-                )}>Smoothies</button>
-                <button onClick={() => setCurrent(MenuItem.COFFEE)} className={clsx(
-                    current === MenuItem.COFFEE && 'active'
-                )}>Coffee</button>
+        <div className="mt-[95px] h-[calc(100vh-80px)] mx-auto px-6 md:px-0 container relative">
+            <div className='flex flex-row flex-wrap justify-between items-center'>
+                <div className="items-center flex flex-row justify-start mb-3">
+                    <button onClick={() => setCurrent(MenuItem.ACAI)} className={sectionButtonClasses(MenuItem.ACAI)}>Acai Bowl</button>
+                    <button onClick={() => setCurrent(MenuItem.SMOOTHIE)} className={sectionButtonClasses(MenuItem.SMOOTHIE)}>Smoothies</button>
+                    <button onClick={() => setCurrent(MenuItem.COFFEE)} className={sectionButtonClasses(MenuItem.COFFEE)}>Coffee</button>
+                </div>
+                <div className='flex-grow mb-3' />
+                <Reveal keyframes={appear} key={current}>
+                <div className='flex flex-wrap mb-3'>
+                    {
+                        categories.map(category => {
+                            const details = TagDetails[category]
+                            return <button className={clsx(
+                                tagSelection[category] ? 'bg-gray-300 text-black' : 'text-gray-700 hover:bg-gray-100 ',
+                                'px-4 py-4 md:py-2 transition-all border border-gray-300 flex flex-row items-center'
+                            )} onClick={() => updateTagSelection(obj => {
+                                obj[category] = !obj[category]
+                            })}><details.icon className='md:mr-2' />{!isMobile && details.name}</button>
+                        })
+                    }
+                </div>
+                </Reveal>
             </div>
-            <div className='h-[calc(100vh-80px)] container mx-auto overflow-auto  py-8 pr-[90px] pl-8'>
-                <div className='grid gap-[20px] transition-all duration-500' style={{
+            <div className='h-[calc(100vh-80px)] container mx-auto overflow-auto mt-2'>
+                <Reveal keyframes={slideDown} key={current} duration={500}>
+                <div className='grid gap-[20px] transition-all duration-500' key={current} style={{
                     gridTemplateColumns: colStyle,
                     gridTemplateRows: rowStyle
                 }}>
                     {
-                        items.map((item, idx) => {
-                            console.log('Hi this is card',item)
+                        items.filter(item => {
+                            if (!Object.values(tagSelection).some(x => x)) return true
+                            for (const tagKey in tagSelection) {
+                                const tag = parseInt(tagKey) as Tag
+                                if (tagSelection[tag] && !item.tags.some(x => x === tag)) return false
+                            }
+                            return true
+                            
+                        }).map((item, idx) => {
                             return <Card reset={() => setIdx(-1)} onClick={() => setIdx(idx)} cardItem={item}/>
                         })
                     }
                 </div>
+                </Reveal>
             </div>
         </div>
         <Footer />
