@@ -1,5 +1,7 @@
 import OkButton from "./ok-button"
 import { MdFacebook, MdOutlineAccountBox, MdWhatsapp } from 'react-icons/md'
+import privacyDoc from '../../assets/docs/Privacy.pdf'
+import tncDoc from '../../assets/docs/Terms and condition.pdf'
 
 const Footer = () =>{
     return         <footer className="mx-auto container flex flex-col items-center pt-16">
@@ -9,7 +11,7 @@ const Footer = () =>{
         <OkButton variant="FILLED" className="text-4xl h-[50px] w-[50px] rounded-full mx-2"><MdWhatsapp /></OkButton>
         <OkButton variant="FILLED" className="text-4xl h-[50px] w-[50px] rounded-full mx-2"><MdOutlineAccountBox /></OkButton>
     </div>
-    <p className="mt-8 mb-16 font-light tracking-wider text-sm">COPYRIGHT OKBERRY | <a target="_blank" href={'https://iitr.ac.in/Academics/static/Admission/PG/M.Tech/1st_round_offer_list.pdf'}>TERMS & CONDITIONS</a> | PRIVACY</p>
+    <p className="mt-8 mb-16 font-light tracking-wider text-sm">COPYRIGHT OKBERRY | <a target="_blank" href={tncDoc}>TERMS & CONDITIONS</a> | <a target="_blank" href={privacyDoc}>PRIVACY</a></p>
 </footer>
 }
 
