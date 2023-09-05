@@ -11,6 +11,7 @@ import './index.css'
 import Footer from "../../common/components/ok-footer"
 import { Reveal } from "react-awesome-reveal"
 import { getSlide, slideDown, slideLeft, slideRight } from "../../common/utils/animations"
+import { Link } from "react-router-dom"
 
 const Home = () => {
     const isMobile = useMobile()
@@ -29,7 +30,7 @@ const Home = () => {
                     <h1 className='font-extrabold text-5xl md:text-4xl mb-4'>Smoothies that</h1>
                     <h3 className='font-extrabold text-4xl md:text-5xl mb-8'>everyone loves!</h3>
                     <p className='text-slate-900 mb-12'>Huge range of organic smoothies for customers</p>
-                    <OkButton variant='FILLED' className='px-16 py-4 shadow-xl'>Start Exploring</OkButton>
+                    <Link to='/menu'><OkButton variant='FILLED' className='px-16 py-4 shadow-xl'>Start Exploring</OkButton></Link>
                 </div>
                 </Reveal>
                 <div className={clsx(

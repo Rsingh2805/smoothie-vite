@@ -87,9 +87,9 @@ const Loyalty = () => {
             <h1 className='font-black text-4xl mb-8'>Interested? Come on over!</h1>
             <Reveal keyframes={appear} duration={500}>
             <div className='flex flex-col md:flex-row'>
-                <div className='md:w-1/3 bg-black py-1 md:py-2'>1. Visit our branch</div>
-                <div className='md:w-1/3 bg-black py-1 md:py-2'>2. Ask for a member card</div>
-                <div className='md:w-1/3 bg-black py-1 md:py-2'>3. Walk away with a promise of quality</div>
+                <div className='md:w-1/3 bg-black bg-opacity-60 py-1 md:py-2'>1. Visit our branch</div>
+                <div className='md:w-1/3 bg-black bg-opacity-60 py-1 md:py-2'>2. Ask for a member card</div>
+                <div className='md:w-1/3 bg-black bg-opacity-60 py-1 md:py-2'>3. Walk away with a promise of quality</div>
             </div>
             </Reveal>
         </div>

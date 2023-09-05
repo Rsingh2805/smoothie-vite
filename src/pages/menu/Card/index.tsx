@@ -32,7 +32,7 @@ const Card = ({ onClick, reset, cardItem }: CardProps) => {
     }
 
     return <div ref={hoverRef} onMouseEnter={() => onClick()} onMouseLeave={() => reset()} className={clsx(
-        "relative transition-all group flex flex-col md:flex-row justify-between",
+        "relative transition-all group flex flex-col md:flex-row justify-between min-h-[225px]",
         !isHover ? 'bg-orange-100' : ''
     )}>
         <div className={clsx(
@@ -67,13 +67,13 @@ const Card = ({ onClick, reset, cardItem }: CardProps) => {
                 "mt-6 transition-opacity delay-100 duration-500",
                 isHover ? 'opacity-100' : 'opacity-0',
             )}>
-                <div className="flex items-center mb-3 justify-end">
+                {cardItem.nutritional.length >=2 && <div className="flex items-center mb-3 justify-end">
                     <span className="mr-3 text-sm font-light">{isSmall ? 'Small' : 'Large'}</span>
                     <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" checked={!isSmall} onChange={toggle} className="sr-only peer" />
                         <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-400 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                     </label>
-                </div>
+                </div>}
                 {cardItem.nutritional.length != 0 && <Nutrition isSmall={isSmall} nutrition={cardItem.nutritional} />}
             </div>
         </div>

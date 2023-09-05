@@ -33,7 +33,7 @@ const OkNav = () => {
     return <nav className={clsx(
         "fixed top-0 w-screen left-0 right-0 z-50 transition-all",
         // isMobile ? 'bg-black' : 'bg-black',
-        pathname === '/' && atTop ? 'bg-transparent h-[90px] text-black' : 'bg-black/80 h-[80px] text-white'
+        ['/',].includes(pathname) && atTop ? 'bg-transparent h-[90px] text-black' : 'bg-black/80 h-[80px] text-white'
         )}>
         <div className="container mx-auto flex h-full flex-row justify-between items-center px-5 md:px-0">
             <h3 className="text-xl font-bold"><Link to='/'>OkBerry</Link></h3>
